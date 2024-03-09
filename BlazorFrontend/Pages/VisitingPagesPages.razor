@@ -1,0 +1,36 @@
+﻿@page "/metrics"
+@using Domain.Entites;
+@using System.Net;
+@using ShopClient;
+@inject NavigationManager NavigationManager
+@inject ShopClient _httpClient
+
+<h3>Статистика посещений</h3>
+<MudTable Items="@_visitingPages">
+    <RowTemplate>
+        <MudTd DataLabel="Путь">@context.Path</MudTd>
+        <MudTd DataLabel="Количество посещений">@context.NumberOfClicks</MudTd>
+    </RowTemplate>
+    <RowEditingTemplate>
+        <MudTd DataLabel="Путь">@context.Path</MudTd>
+        <MudTd DataLabel="Количество посещений">@context.NumberOfClicks</MudTd>
+    </RowEditingTemplate>
+</MudTable>
+
+@code {
+    private List<VisitingPages> _visitingPages = new();
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _visitingPages = await _httpClient.GetVisitingPages(_cancellationTokenSource.Token);
+    }
+
+    public void Dispose()
+    {
+        _cancellationTokenSource.Dispose();
+    }
+
+}

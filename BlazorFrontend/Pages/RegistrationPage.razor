@@ -1,0 +1,47 @@
+﻿@page "/register"
+@using Domain.Entites;
+@using System.Net;
+@using ShopClient;
+@inject NavigationManager NavigationManager
+@inject ShopClient _httpClient
+
+<form>
+    <h5 class="card-title">Регистрация</h5>
+    <div class="mb-3">
+        <label for="inputName" class="form-label">Имя</label>
+        <input type="text" class="form-control w-25" id="inputName" name="Name" placeholder="Введите имя" required @bind="@_name">
+    </div>
+    <div class="mb-3">
+        <label for="inputEmail" class="form-label">Email</label>
+        <input type="email" class="form-control w-25" id="inputEmail" name="Email" placeholder="Введите email" required @bind="@_email">
+    </div>
+    <div class="mb-3">
+        <label for="inputPassword" class="form-label">Пароль</label>
+        <input type="password" class="form-control w-25" id="inputPassword" name="Password" placeholder="Введите пароль" required @bind="@_password">
+    </div>
+    <button type="button" class="btn btn-primary" @onclick="Register">Зарегистрироваться</button>
+</form>
+
+
+@code {
+    private string _name = string.Empty;
+    private string _email = string.Empty;
+    private string _password = string.Empty;
+    private readonly CancellationTokenSource _cancellationTokenSource = new();
+
+    private async Task Register()
+    {
+        var registrationRequest = new RegistrationRequest()
+            {
+                Name = _name,
+                Email = _email,
+                Password = _password
+            };
+        var accuont = await _httpClient.Register(registrationRequest, _cancellationTokenSource.Token);
+        
+    }
+    public void Dispose()
+    {
+        _cancellationTokenSource.Dispose();
+    }
+}

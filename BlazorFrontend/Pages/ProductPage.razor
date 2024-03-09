@@ -1,0 +1,39 @@
+﻿@*@using GeneratedApiClientLib.Models;
+@page "/Product/{ProductId:int}"
+@inject IProductCatalog ProductCatalog
+
+<MudCard Style="max-width: 600px;">
+    <MudCardContent>
+        <h3>@_product.Name</h3>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Категория:</td>
+                    <td>@_product.Category.Name</td>
+                </tr>
+                <tr>
+                    <td>Цена:</td>
+                    <td>@_product.Price</td>
+                </tr>
+                <tr>
+                    <td>Фото:</td>                    
+                    <td><img src="@_product.ImageUrl" alt="Product Photo" style="max-height: 200px;"></td>
+                </tr>
+            </tbody>
+        </table>
+    </MudCardContent>
+</MudCard>
+
+
+@code {
+    [Parameter]
+    public int ProductId { get; set; }
+    private Product _product { get; set; }
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    await base.OnInitializedAsync();
+    //    _product = await ProductCatalog.GetProductAsync(ProductId);
+    //}
+}
+*@

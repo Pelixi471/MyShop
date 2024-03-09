@@ -1,0 +1,29 @@
+﻿@*@page "/products"
+@using GeneratedApiClientLib
+@using GeneratedApiClientLib.Models;
+@inject BlazorGeneratedApiClient ShopClient
+
+<h3>Список товаров</h3>
+@if (_products != null)
+{
+    foreach(var product in _products)
+    {
+        <div>@product.Name (@product.Price)</div>
+    }  
+}
+else
+{
+    <h3>Загрузка товаров...</h3>
+}
+
+@code {
+    private IReadOnlyList<Product>? _products = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        _products = await ShopClient.Api.Products.GetAsync();
+    }
+
+}
+*@

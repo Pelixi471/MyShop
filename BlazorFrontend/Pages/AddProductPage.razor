@@ -1,0 +1,51 @@
+﻿@*@using MudBlazor
+@using GeneratedApiClientLib.Models;
+@page "/add"
+@inject IProductCatalog ProductCatalog
+
+<h3>AddProductPage</h3>
+
+<MudForm>
+    <MudItem xs="12" md="6">
+        <MudTextField Label="Название товара" @bind-Value="_newProductName" />
+    </MudItem>
+    <MudItem xs="12" md="6">
+        <MudTextField Label="Цена товара" @bind-Value="_newProductPrice" Step="0.01" />
+    </MudItem>
+    <MudItem xs="12" md="6">
+        <MudSelect Label="Категория товара" @bind-Value="_newProductCategory">>
+        </MudSelect>
+    </MudItem>
+    <MudItem xs="12" md="6">
+        <MudTextField Label="URL изображения товара" @bind-Value="_newProductImageUrl" />
+    </MudItem>
+    <MudItem>
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="AddProduct">Добавить товар</MudButton>
+    </MudItem>
+</MudForm>
+
+@code {
+    private IReadOnlyList<Product> _products;
+    private int _newProductId;
+    private string _newProductName;
+    private decimal _newProductPrice;
+    private Category _newProductCategory;
+    private string _newProductImageUrl;
+
+   /* private async Task AddProduct()
+    {
+        await ProductCatalog.AddProduct(_newProductName, _newProductPrice, _newProductCategory, _newProductImageUrl);
+        _products = ProductCatalog.GetProducts();
+        ResetForm();
+    }*/
+
+    private void ResetForm()
+    {
+        _newProductId = 0;
+        _newProductName = string.Empty;
+        _newProductPrice = 0m;
+        _newProductCategory = null;
+        _newProductImageUrl = string.Empty;
+    }
+
+}*@
